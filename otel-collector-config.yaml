@@ -1,0 +1,24 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+exporters:
+  debug:    # Changed from 'logging' to 'debug'
+    verbosity: detailed
+  otlp:
+    endpoint: "http://jaeger:4317"
+    tls:
+      insecure: true
+  zipkin:
+    endpoint: "http://zipkin:9411/api/v2/spans"
+
+service:    # Changed from 'services' to 'service'
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug, otlp, zipkin, jaeger]  # Changed 'logging' to 'debug'
+

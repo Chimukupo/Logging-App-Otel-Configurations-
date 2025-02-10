@@ -1,0 +1,31 @@
+# version: '3.7'
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib
+    restart: always
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+      - "4317:4317" # HTTP
+      - "4318:4318" # gRPC
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    command: ["--config=/etc/otel-collector-config.yaml"]
+
+  jaeger:
+    image: jaegertracing/all-in-one
+    restart: always
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # Jaeger Collector
+
+  zipkin:
+    image: openzipkin/zipkin
+    restart: always
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+      - "9411:9411"  # Zipkin UI
