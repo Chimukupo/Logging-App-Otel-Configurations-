@@ -56,18 +56,18 @@ defmodule LoggingApp.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:logger_file_backend, "~> 0.0.14"}, # Ensure file logging support
-      {:opentelemetry, "~> 1.5"},
-      {:opentelemetry_api, "~> 1.4"},
-      {:opentelemetry_exporter, "~> 1.8"},
-      {:opentelemetry_phoenix, "~> 2.0"},
-      {:opentelemetry_zipkin, "~> 1.1"},
-      {:opentelemetry_telemetry, "~> 1.1"},
-      {:opentelemetry_function, "~> 0.1.0"},
-      {:opentelemetry_logger_metadata, "~> 0.1.0"},
-      {:tracing, "~> 0.2.1"},
-      {:opentelemetry_ecto, "~> 1.2"},
-      {:opentelemetry_semantic_conventions, "~> 1.27"}
+      # ====== ====== Opentelemetry Dependencies ====== ======
+        {:opentelemetry, "~> 1.5"},
+        {:opentelemetry_api, "~> 1.4"},
+        {:opentelemetry_exporter, "~> 1.8"},
+        {:opentelemetry_phoenix, "~> 2.0"},
+        {:opentelemetry_zipkin, "~> 1.1"},
+        {:opentelemetry_telemetry, "~> 1.1"},
+        {:opentelemetry_function, "~> 0.1.0"},
+        {:opentelemetry_logger_metadata, "~> 0.1.0"},
+        {:opentelemetry_semantic_conventions, "~> 1.27"},
+        {:logger_file_backend, "~> 0.0.14"},
+        {:tracing, "~> 0.2.1"}
     ]
   end
 

@@ -17,7 +17,7 @@ defmodule LoggingAppWeb.Router do
   scope "/", LoggingAppWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.

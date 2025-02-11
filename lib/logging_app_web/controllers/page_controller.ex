@@ -12,7 +12,7 @@ defmodule LoggingAppWeb.PageController do
   #   # render(conn, :home, layout: false)
   # end
 
-  def index(conn, _params) do
+  def home(conn, _params) do
     Tracer.with_span "index_operation" do
       # The logger will automatically include trace context
       Logger.info("Starting index operation")
@@ -20,7 +20,7 @@ defmodule LoggingAppWeb.PageController do
       # Add custom attributes to the current span
       Tracer.set_attributes([
         {"custom.attribute", "value"},
-        {"operation.type", "index"}
+        {"operation.type", "home"}
       ])
 
       # Add events to the span
@@ -29,8 +29,8 @@ defmodule LoggingAppWeb.PageController do
         {"milestone.timestamp", System.system_time(:millisecond)}
       ])
 
-      text(conn, "Logs generated! Check your log files.")
-      # render(conn, :index)
+      # render(conn, :home)
+      text(conn, "Logs generated✅! Check your log files.")
     end
   end
 end

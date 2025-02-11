@@ -49,18 +49,9 @@ config :tailwind,
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id, :trace_id, :span_id] # Include OpenTelemetry metadata
+  metadata: [:request_id, :trace_id, :span_id]
 
-# Configure log levels and file destinations
 config :logger,
-  backends: [
-    :console,
-    {LoggerFileBackend, :info_log},
-    {LoggerFileBackend, :error_log},
-    {LoggerFileBackend, :warn_log}
-  ]
-
-  config :logger,
   level: :info,
   metadata: [
     request_id: nil,
@@ -72,6 +63,15 @@ config :logger,
     function: nil,
     file: nil,
     line: nil
+  ]
+
+# Configure log levels and file destinations
+config :logger,
+  backends: [
+    :console,
+    {LoggerFileBackend, :info_log},
+    {LoggerFileBackend, :error_log},
+    {LoggerFileBackend, :warn_log}
   ]
 
 config :logger, :info_log,
@@ -86,13 +86,27 @@ config :logger, :warn_log,
   path: "C:/Users/Cyber Comp Tech/Documents/Logs/logging_app/warn.log",
   level: :warn
 
-# Opentelemetry Configurations
+# ===== ===== Opentelemetry Configurations ===== =====
+
 config :opentelemetry,
   span_processor: :batch
 
-# ===== ===== ===== ===== =====
+config :opentelemetry, :resource,
+  service: %{name: "logging_app"},
+  instance_id: "instance-#{:erlang.system_info(:scheduler_id)}",
+  traces_exporter: [{:otlp, []}, {:zipkin, []}, {:jaeger, []}]
 
-# Update the Zipkin exporter configuration
+config :opentelemetry, :processors,
+  otel_batch_processor: %{
+    exporter: {:opentelemetry_zipkin, []}
+  }
+
+config :opentelemetry_logger_metadata,
+  log_traces: true,
+  log_exporter: :otlp,
+  # emit_warning: true,
+  log_level: :info
+
 config :opentelemetry_zipkin,
   local_endpoint: %{
     service_name: "logging_app",
@@ -101,31 +115,14 @@ config :opentelemetry_zipkin,
   },
   address: "http://localhost:9411/api/v2/spans"
 
-# Make sure spans are processed before being exported
-config :opentelemetry, :processors,
-  otel_batch_processor: %{
-    exporter: {:opentelemetry_zipkin, []}
-  }
-
-# ===== ===== ===== ===== =====
-
-config :opentelemetry, :resource,
-  service: %{name: "logging_app"},
-  instance_id: "instance-#{:erlang.system_info(:scheduler_id)}"
-  # traces_exporter: [{:otlp, []}, {:zipkin, []}, {:jaeger, []}]
-
-config :opentelemetry_logger_metadata,
-  log_traces: true,
-  log_exporter: :otlp,
-  emit_warning: true,
-  log_level: :info
-
 config :opentelemetry_exporter,
   # service_name: "logging_app",
   otlp_protocol: :http_protobuf,
   protocol: :http_protobuf,
-  # otlp_endpoint: "http://localhost:4318"
-  otlp_endpoint: "http://localhost:9411/api/v2/spans"
+  otlp_endpoint: "http://localhost:4318"
+  # otlp_endpoint: "http://localhost:9411/api/v2/spans"
+
+# ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
