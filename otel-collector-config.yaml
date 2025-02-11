@@ -6,6 +6,11 @@ receivers:
       http:
         endpoint: 0.0.0.0:4318
 
+processors:
+  batch:
+    timeout: 1s
+    send_batch_size: 1024        
+
 exporters:
   debug:    # Changed from 'logging' to 'debug'
     verbosity: detailed
@@ -20,5 +25,10 @@ service:    # Changed from 'services' to 'service'
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug, otlp, zipkin, jaeger]  # Changed 'logging' to 'debug'
+      processors: [batch]
+      exporters: [debug, otlp, zipkin]  # Changed 'logging' to 'debug'
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]  
 

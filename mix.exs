@@ -5,7 +5,7 @@ defmodule LoggingApp.MixProject do
     [
       app: :logging_app,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.17",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -53,23 +53,21 @@ defmodule LoggingApp.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.5"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:logger_file_backend, "~> 0.0.14"},
+      {:logger_file_backend, "~> 0.0.14"}, # Ensure file logging support
       {:opentelemetry, "~> 1.5"},
       {:opentelemetry_api, "~> 1.4"},
       {:opentelemetry_exporter, "~> 1.8"},
       {:opentelemetry_phoenix, "~> 2.0"},
       {:opentelemetry_zipkin, "~> 1.1"},
-      # {:jaeger_passage, "~> 0.1.14"},
       {:opentelemetry_telemetry, "~> 1.1"},
       {:opentelemetry_function, "~> 0.1.0"},
-      # {:escript, "~> 1.0", only: :dev},
       {:opentelemetry_logger_metadata, "~> 0.1.0"},
       {:tracing, "~> 0.2.1"},
       {:opentelemetry_ecto, "~> 1.2"},
-      # {:opentelemetry_plug, "~> 1.0"},
-      {:otel_http, "~> 0.2.0"}
+      {:opentelemetry_semantic_conventions, "~> 1.27"}
     ]
   end
 
